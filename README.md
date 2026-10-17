@@ -97,7 +97,7 @@ This is the same shape as a "System One / System Two" split: fast pattern matchi
 | **When to use** | You need to *do* something on a user's behalf | You need to *classify / score / gate* something in a hot path |
 | **Prose** | Can hand off to an LLM for language | Cannot generate text |
 
-A clean pairing: use a Jev-style decision model to classify and route (is this a refund request? is this action safe?), then hand the winning path to a tool-running agent like NeedleAI-util to actually perform the work. NeedleAI-util already implements the routing half locally; swap its scoring stage for Jev when you need calibrated probabilities at scale and are willing to pay for the API.
+A clean pairing: use a Jev-style decision model to classify and route (is this a refund request? is this action safe?), then hand the winning path to a tool-running agent like NeedleAI-util to actually perform the work. NeedleAI-util already implements the routing half locally; swap its scoring stage for Jev when you need calibrated probabilities at scale and are willing to pay for the API..
 
 ## Layout
 
