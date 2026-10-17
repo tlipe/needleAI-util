@@ -85,19 +85,27 @@ This is the same shape as a "System One / System Two" split: fast pattern matchi
 
 ## Comparison with Jev
 
-[Jev](https://jevmodel.org/) is TypeSafe AI's proprietary "System One" decision model. It is a useful point of comparison because both projects target fast, structured decisions, but they sit at opposite ends of the stack.
+[Needle](https://github.com/cactus-compute/needle) (by Cactus Compute) and [Jev](https://jevmodel.org/) (by TypeSafe AI) are both small, fast models designed for structured decisions on edge devices, but they target different layers of the stack.
 
-| | NeedleAI-util | Jev |
+| | Needle | Jev |
 |---|---|---|
-| **Job** | Route a request and *execute* a tool | Return a typed decision (choice / score / probability) |
-| **Output** | Tool result (string, dict, list) | One of the enumerated answers, with a calibrated confidence |
-| **Deployment** | Local, 14 MB weights, CPU | Hosted API, $0.042 / M input tokens |
-| **Latency** | Sub-second on a laptop | 70–500 ms per the vendor |
-| **Schema** | Defined once in `commands.json` | Defined per request in the API call |
-| **When to use** | You need to *do* something on a user's behalf | You need to *classify / score / gate* something in a hot path |
-| **Prose** | Can hand off to an LLM for language | Cannot generate text |
+| **Job** | Tool calling, structured extraction, embeddings, ASR | Typed decisions (choice / score / probability) |
+| **Architecture** | Laddered Simple Attention Network, 2-bit quantization | Causal transformer, non-autoregressive parallel sampler |
+| **Size** | 8–29 MB (single binary) | Not disclosed (hosted API) |
+| **Deployment** | Fully local, runs on phones, wearables, MCUs, cars | Hosted API, $0.042 / M input tokens, output free |
+| **Latency** | Sub-second on CPU (varies by device) | 70–500 ms per vendor |
+| **Output** | Tool calls with arguments, typed JSON, vectors, transcripts | Enumerated answers with calibrated confidence scores |
+| **Schema** | Defined in Python decorators or JSON, compiled into grammar | Defined per request in API call |
+| **Fine-tuning** | Local LoRA or platform-managed, 4-bit or 2-bit | Not disclosed |
+| **Speech** | Yes (Whistle: 16.9 MB, 7 languages) | No |
+| **When to use** | You need tool execution, extraction, or embeddings on tiny devices | You need fast classification/scoring in a hot path with calibrated probabilities |
+| **Prose generation** | No (not a chat model) | No (not a chat model) |
 
-A clean pairing: use a Jev-style decision model to classify and route (is this a refund request? is this action safe?), then hand the winning path to a tool-running agent like NeedleAI-util to actually perform the work. NeedleAI-util already implements the routing half locally; swap its scoring stage for Jev when you need calibrated probabilities at scale and are willing to pay for the API.
+**Key difference:** Needle is a *foundation model for automation* — it picks tools, fills arguments, extracts structured data, and returns embeddings, all from a single 8–29 MB binary that runs on microcontrollers. Jev is a *decision model* — it returns typed choices with confidence scores, optimized for routing and gating in high-volume pipelines.
+
+**NeedleAI-util** (this project) wraps Needle with a deterministic two-stage router: trigger/keyword matching for instant responses, then Needle for ambiguous requests. It adds a REPL, tool catalog, and interactive registrar on top of the base model.
+
+**When to pair them:** Use Jev to classify and route (is this a refund request? is this action safe?), then hand the winning path to Needle (via NeedleAI-util) to execute the tool call and return results. Needle already implements the tool-calling half; swap its routing stage for Jev when you need calibrated probabilities at scale.
 
 ## Layout
 
