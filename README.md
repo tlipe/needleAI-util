@@ -1,5 +1,22 @@
 # NeedleAI-util
 
+<div align="center">
+
+![Python Version](https://img.shields.io/badge/python-3.9+-blue?style=flat-square&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+![Status](https://img.shields.io/badge/status-stable-success?style=flat-square)
+![Platform](https://img.shields.io/badge/platform-Windows-lightgrey?style=flat-square&logo=windows)
+![Model Size](https://img.shields.io/badge/model-14MB-orange?style=flat-square)
+![Offline](https://img.shields.io/badge/offline-ready-brightgreen?style=flat-square)
+
+**Tiny offline AI assistant · Two-stage router · Local-first**
+
+[Quick Start](#run-it) · [Add Tools](#add-a-tool) · [Architecture](#how-it-decides) · [Comparison](#comparison-with-jev)
+
+</div>
+
+---
+
 A tiny offline assistant that routes user requests to registered tools. It runs on the 14 MB [cactus-needle](https://pypi.org/project/cactus-needle/) foundation model and falls back to rule-based routing whenever a configured trigger or keyword match is strong enough to skip the model entirely.
 
 ## What it does
