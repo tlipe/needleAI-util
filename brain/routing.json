@@ -1,0 +1,21 @@
+{
+  "stopwords": [
+    "para", "uma", "um", "o", "a", "e", "de", "do", "da", "por",
+    "com", "sem", "se", "na", "no", "nos", "nas", "faz", "faça",
+    "faca", "gere", "gerar", "qual", "como", "está"
+  ],
+  "parameter_markers": ["para", "em", "sobre"],
+  "multi_task_markers": ["e", "também", "depois", "além disso", "bem como"],
+  "commands": {
+    "search_knowledge": {
+      "keywords": ["buscar", "conhecimento", "procurar", "informação", "clima", "temperatura", "tempo"],
+      "priority": 2
+    },
+    "generate_greeting": {
+      "triggers": ["saudação para", "saudação de", "saudações para", "saudacoes para"],
+      "keywords": ["saudação", "saudar", "cumprimento"],
+      "priority": 5,
+      "multiple_values": true
+    }
+  }
+}

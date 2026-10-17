@@ -1,0 +1,18 @@
+{
+  "commands": [
+    {
+      "id": "search_knowledge",
+      "description": "Search records stored in brain JSON files.",
+      "action": "search_knowledge",
+      "parameter": "query"
+    },
+    {
+      "id": "generate_greeting",
+      "description": "Generate a greeting for a person's name.",
+      "action": "run_script",
+      "script": "example_greeting",
+      "function": "generate_greeting",
+      "parameter": "name"
+    }
+  ]
+}
