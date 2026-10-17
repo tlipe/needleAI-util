@@ -14,6 +14,12 @@ A tiny offline assistant that routes user requests to registered tools. It runs 
 
 ## Run it
 
+### Windows (quick start)
+
+Double-click `NeedleAI.bat`. If the virtual environment is missing, it shows setup instructions.
+
+### Manual setup
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
@@ -25,37 +31,29 @@ Type `/exit` or `/quit` to leave. First launch downloads the Needle weights.
 
 ## Add a tool
 
-1. Write the function in `tools/`, e.g. `tools/hello.py`:
+Run the interactive registrar:
 
-   ```python
-   def greet(name: str) -> dict[str, str]:
-       return {"message": f"Hi, {name}!"}
-   ```
+```bash
+python tools/register.py
+```
 
-2. Register it in `brain/commands.json`:
+It prompts for the tool ID, description, parameter, triggers, keywords, and priority, then updates `brain/commands.json` and `brain/routing.json` automatically.
 
-   ```json
-   {
-     "id": "greet",
-     "description": "Say hi to someone.",
-     "action": "run_script",
-     "script": "hello",
-     "function": "greet",
-     "parameter": "name",
-     "examples": ["greet Ana", "say hi to Bruno"]
-   }
-   ```
+If the tool runs a Python script, write the function in `tools/` (e.g. `tools/hello.py`):
 
-3. Add routing hints in `brain/routing.json` under `commands.greet`:
+```python
+def greet(name: str) -> dict[str, str]:
+    return {"message": f"Hi, {name}!"}
+```
 
-   ```json
-   "greet": {
-     "triggers": ["greet", "say hi to"],
-     "keywords": ["greet", "hello", "hi"],
-     "priority": 5,
-     "multiple_values": true
-   }
-   ```
+The registrar will remind you to create the script if it does not exist yet.
+
+### Manual configuration (advanced)
+
+You can also edit the JSON files directly:
+
+- `brain/commands.json`: tool catalog (id, description, action, parameter, script, function, examples)
+- `brain/routing.json`: triggers, keywords, priority, multiple_values
 
 `triggers` fire on exact prefix or word match and skip the model. `keywords` feed the scoring fallback. `priority` is an integer tie-breaker. `multiple_values: true` lets one request fan out over a comma/semicolon/`e`-separated list.
 
