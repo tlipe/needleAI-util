@@ -1,38 +1,53 @@
 @echo off
 setlocal
-title Needle Chat
+title NeedleAI
 
 set "PROJECT=%~dp0"
 set "PYTHON=%PROJECT%.venv\Scripts\python.exe"
 set "SCRIPT=%PROJECT%Needle.py"
+set "REQUIREMENTS=%PROJECT%requirements.txt"
 
-if not exist "%PYTHON%" (
-    echo [ERRO] Python da .venv nao encontrado:
-    echo "%PYTHON%"
-    echo.
-    echo Execute: python -m venv .venv
-    echo          .venv\Scripts\activate
-    echo          pip install -r requirements.txt
+python --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Python nao encontrado. Instale de https://python.org
     pause
     exit /b 1
 )
 
+if not exist "%PYTHON%" (
+    echo Criando ambiente virtual...
+    python -m venv .venv
+    if %errorlevel% neq 0 (
+        echo Falha ao criar .venv
+        pause
+        exit /b 1
+    )
+    
+    echo Instalando dependencias...
+    call "%PROJECT%.venv\Scripts\activate.bat"
+    pip install -r "%REQUIREMENTS%"
+    if %errorlevel% neq 0 (
+        echo Falha ao instalar dependencias
+        pause
+        exit /b 1
+    )
+)
+
 if not exist "%SCRIPT%" (
-    echo [ERRO] Needle.py nao encontrado:
-    echo "%SCRIPT%"
+    echo Needle.py nao encontrado
     pause
     exit /b 1
 )
 
 cd /d "%PROJECT%"
-echo ========================================
-echo             NEEDLE CHAT
-echo ========================================
-echo Digite /exit ou /quit para encerrar.
+echo NeedleAI - /exit para encerrar
 echo.
 
 "%PYTHON%" -u "%SCRIPT%"
 
-echo.
-echo Needle encerrado.
+if %errorlevel% neq 0 (
+    echo.
+    echo Erro %errorlevel%
+)
+
 pause
