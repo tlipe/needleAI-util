@@ -17,7 +17,7 @@
 
 ---
 
-A tiny offline assistant that routes user requests to registered tools. It runs on the 14 MB [cactus-needle](https://pypi.org/project/cactus-needle/) foundation model and falls back to rule-based routing whenever a configured trigger or keyword match is strong enough to skip the model entirely.
+A tiny offline assistant that routes user requests to registered tools. It runs on the 14 MB [cactus-needle](https://pypi.org/project/cactus-needle/) foundation model and falls back to rule-based routing whenever a configured trigger or keyword match is strong enough to skip the model entirely
 
 ## What it does
 
